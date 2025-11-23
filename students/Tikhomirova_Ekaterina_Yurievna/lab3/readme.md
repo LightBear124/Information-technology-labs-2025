@@ -18,39 +18,57 @@
 
 Первым шагом была проверка установки Docker на виртуальной машине Debian. Команда docker --version подтвердила наличие установленного Docker версии 25.1.5, что означало готовность системы к дальнейшей работе.
 
+<div align="center">
 ![Проверка версии Docker](media/image001.png)
+</div>
 
 Далее был создан аккаунт на платформе Docker Hub и зарегистрирован публичный репозиторий с именем custom-nginx. Это обеспечило место для хранения создаваемого образа и возможность его дальнейшего распространения.
 
-![Создание репозитория на Docker Hub](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image002.png)
+<div align="center">
+![Создание репозитория на Docker Hub](media/image002.png)
+</div>
 
 После подготовки репозитория был скачан базовый образ nginx версии 1.21.1 с помощью команды docker pull nginx:1.21.1. Этот образ послужил основой для создания кастомной версии.
 
-![Скачивание образа nginx](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image003.png)
+<div align="center">
+![Скачивание образа nginx](media/image003.png)
+</div>
 
 Для модификации стандартной страницы nginx был создан файл index.html с определенным содержанием, включающим приветствие "Hey, ZGU!" и текст "I will be IT Engineer!". Этот файл предназначен для замены стандартной индексной страницы веб-сервера.
 
-![Создание файла index.html](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image004.png)
+<div align="center">
+![Создание файла index.html](media/image004.png)
+</div>
 
 Затем был разработан Dockerfile - конфигурационный файл, содержащий инструкции по сборке образа. В файле указано использование базового образа nginx:1.21.1 и команда копирования созданного файла index.html в директорию /usr/share/nginx/html/index.html внутри контейнера.
 
-![Dockerfile](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image005.png)
+<div align="center">
+![Dockerfile](media/image005.png)
+</div>
 
 Следующим этапом стала непосредственная сборка кастомного образа с использованием команды docker build с тегом teoxxid/custom-nginx:1.0.0. Процесс сборки включал загрузку необходимых слоев и применение указанных в Dockerfile изменений.
 
-![Сборка образа](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image006.png)
+<div align="center">
+![Сборка образа](media/image006.png)
+</div>
 
 Перед публикацией образа была выполнена аутентификация в Docker Hub через команду docker login, что обеспечило права на запись в созданный репозиторий.
 
-![Аутентификация в Docker Hub](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image007.png)
+<div align="center">
+![Аутентификация в Docker Hub](media/image007.png)
+</div>
 
 Финальным шагом стала отправка собранного образа в репозиторий Docker Hub с помощью команды docker push. Процесс успешно завершился загрузкой всех слоев образа и присвоением уникального идентификатора digest.
 
-![Публикация образа](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image008.png)
+<div align="center">
+![Публикация образа](media/image008.png)
+</div>
 
 В результате выполнения задачи был создан и опубликован кастомный образ nginx с модифицированной стартовой страницей, доступный по ссылке: https://hub.docker.com/r/teoxxid/custom-nginx с тегом 1.0.0. Все этапы задачи выполнены успешно, образ готов к использованию в последующих заданиях лабораторной работы.
 
-![Результат на Docker Hub](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image009.png)
+<div align="center">
+![Результат на Docker Hub](media/image009.png)
+</div>
 
 ---
 
@@ -60,22 +78,32 @@
 
 Первым этапом был запуск контейнера с использованием команды docker run с применением ряда ключевых параметров. Контейнер был запущен в фоновом режиме благодаря флагу -d, что позволяет ему работать без блокировки терминала. Для идентификации контейнера было задано имя "teoxxid-custom-nginx-t2", где teoxxid заменяется на фактическое ФИО пользователя. Важным аспектом настройки стала публикация портов с использованием параметра -p 127.0.0.1:8080:80, который обеспечил проброс порта 80 из контейнера на порт 8080 локального интерфейса хостовой системы.
 
-![Запуск контейнера](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image010.png)
+<div align="center">
+![Запуск контейнера](media/image010.png)
+</div>
 
 После успешного запуска контейнера было выполнено его переименование с помощью команды docker rename. Исходное имя "teoxxid-custom-nginx-t2" было изменено на унифицированное "custom-nginx-t2" в соответствии с требованиями задания. Данная операция была выполнена без остановки или удаления контейнера, что демонстрирует возможность динамического управления работающими контейнерами.
 
-![Переименование контейнера](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image011.png)
+<div align="center">
+![Переименование контейнера](media/image011.png)
+</div>
 
 Следующим этапом стало выполнение комплексной команды мониторинга, которая объединила несколько операций проверки состояния системы. Команда включала вывод текущей даты и времени с наносекундной точностью, кратковременную паузу для синхронизации процессов, отображение списка активных Docker-контейнеров, проверку сетевых портов на предмет прослушивания порта 8080, получение последней записи из логов контейнера и преобразование содержимого index.html в формат base64 непосредственно внутри контейнера.
 
-![Комплексный мониторинг](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image012.png)
+<div align="center">
+![Комплексный мониторинг](media/image012.png)
+</div>
 
 Финальным шагом задачи стала проверка доступности веб-сервера с использованием утилиты curl. 
 Запрос по адресу http://127.0.0.1:8080 подтвердил корректную работу nginx и доступность кастомной индексной страницы. В ответе сервера был получен HTML-код с ожидаемым содержимым, включающим тексты "Hey, ZGU!" и "I will be IT Engineer!", что свидетельствует о успешной замене стандартной страницы nginx на созданную ранее кастомную версию.
 
-![Проверка работы curl](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image013.png)
+<div align="center">
+![Проверка работы curl](media/image013.png)
+</div>
 
-![Результат curl](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image014.png)
+<div align="center">
+![Результат curl](media/image014.png)
+</div>
 
 ---
 
@@ -85,41 +113,63 @@
 
 Первым этапом стало изучение возможностей Docker для подключения к стандартным потокам ввода/вывода контейнера. С помощью команды docker attach --help была получена информация о синтаксисе и параметрах команды подключения к работающему контейнеру.
 
-![Изучение команды docker attach](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image015.png)
+<div align="center">
+![Изучение команды docker attach](media/image015.png)
+</div>
 
 Далее было выполнено подключение к контейнеру "custom-nginx-t2" с использованием команды docker attach. После установления соединения была применена комбинация клавиш Ctrl-C, что привело к немедленной остановке контейнера.
 
-![Подключение и остановка контейнера](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image016.png)
+<div align="center">
+![Подключение и остановка контейнера](media/image016.png)
+</div>
 
 Проверка статуса через docker ps -a подтвердила изменение состояния контейнера на "Exited". Анализ показал, что контейнер остановился по причине получения основным процессом nginx сигнала SIGINT от комбинации Ctrl-C, что является стандартным поведением для демонических процессов в Linux.
 
-![Проверка статуса контейнера](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image017.png)
+<div align="center">
+![Проверка статуса контейнера](media/image017.png)
+</div>
 
 Следующим шагом контейнер был перезапущен командой docker start, после чего осуществлен вход в интерактивный терминал контейнера с оболочкой bash через docker exec -it. Это позволило получить полноценный доступ к файловой системе контейнера для последующей модификации конфигурации.
 
-![Перезапуск контейнера](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image018.png)
+<div align="center">
+![Перезапуск контейнера](media/image018.png)
+</div>
 
-![Вход в контейнер](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image019.png)
+<div align="center">
+![Вход в контейнер](media/image019.png)
+</div>
 
 Внутри контейнера была проведена подготовка к редактированию конфигурационных файлов: обновлены списки пакетов через apt update и установлен текстовый редактор nano с помощью apt install. После этого был отредактирован файл конфигурации nginx /etc/nginx/conf.d/default.conf, в котором порт прослушивания был изменен с 80 на 81.
 
-![Обновление пакетов](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image020.png)
+<div align="center">
+![Обновление пакетов](media/image020.png)
+</div>
 
-![Установка nano](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image021.png)
+<div align="center">
+![Установка nano](media/image021.png)
+</div>
 
-![Редактирование конфигурации nginx](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image022.png)
+<div align="center">
+![Редактирование конфигурации nginx](media/image022.png)
+</div>
 
 Для применения изменений конфигурации выполнена команда nginx -s reload, которая инициировала плавную перезагрузку конфигурации веб-сервера без остановки основного процесса. Последующая проверка с помощью curl подтвердила, что на порту 80 сервер более не отвечает, в то время как на порту 81 nginx успешно обрабатывает запросы.
 
-![Проверка работы nginx](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image023.png)
+<div align="center">
+![Проверка работы nginx](media/image023.png)
+</div>
 
 После выхода из контейнера проведена диагностика возникшей проблемы: команда ss -tlpn показала отсутствие прослушивания порта 8080 на хостовой системе, docker port отобразил проброс порта 8080 на порт 80 контейнера, а curl к localhost:8080 завершился ошибкой соединения. Анализ выявил, что проблема заключается в несоответствии конфигурации: внешний порт 8080 пробрасывается на внутренний порт 80 контейнера, однако nginx был перенастроен на прослушивание порта 81.
 
-![Диагностика проблемы](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image024.png)
+<div align="center">
+![Диагностика проблемы](media/image024.png)
+</div>
 
 Финальным действием задачи стало удаление запущенного контейнера без его предварительной остановки с использованием команды docker rm -f, что демонстрирует возможность принудительного удаления работающих контейнеров в экстренных ситуациях.
 
-![Удаление контейнера](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image025.png)
+<div align="center">
+![Удаление контейнера](media/image025.png)
+</div>
 
 ---
 
@@ -129,25 +179,37 @@
 
 Первым этапом был запущен контейнер на основе образа CentOS с использованием тега latest. Контейнер был запущен в фоновом режиме с ключом -d, что обеспечило его работу без блокировки терминала. Для организации общего доступа к файлам был применен ключ -v, который подключил текущий рабочий каталог хостовой системы в директорию /data внутри контейнера. Данная настройка позволила обеспечить синхронизацию файлов между хостом и контейнером.
 
-![Запуск контейнера CentOS](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image026.png)
+<div align="center">
+![Запуск контейнера CentOS](media/image026.png)
+</div>
 
 Следующим шагом был запущен второго контейнера на основе образа Debian, также в фоновом режиме. Аналогично первому контейнеру, был настроен volume, подключивший тот же рабочий каталог хоста в директорию /data контейнера Debian. Это создало общее файловое пространство, доступное обоим контейнерам и хостовой системе.
 
-![Запуск контейнера Debian](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image027.png)
+<div align="center">
+![Запуск контейнера Debian](media/image027.png)
+</div>
 
 После запуска контейнеров было выполнено подключение к первому контейнеру CentOS с помощью команды docker exec. Внутри контейнера был создан текстовый файл с произвольным содержимым в директории /data. Благодаря настроенному volume, созданный файл немедленно стал доступен в соответствующем каталоге хостовой системы.
 
-![Создание файла в контейнере](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image028.png)
+<div align="center">
+![Создание файла в контейнере](media/image028.png)
+</div>
 
 Для демонстрации двусторонней синхронизации был создан дополнительный файл непосредственно в текущем рабочем каталоге хостовой системы. Это действие подтвердило возможность обмена файлами в обоих направлениях: как из контейнера в хост, так и из хоста в контейнер.
 
-![Создание файла на хосте](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image029.png)
+<div align="center">
+![Создание файла на хосте](media/image029.png)
+</div>
 
 Финальным этапом задачи стало подключение ко второму контейнеру Debian и проверка содержимого директории /data. Команда ls -la продемонстрировала наличие обоих файлов: созданного в контейнере CentOS и добавленного с хостовой системы. Последующее отображение содержимого файлов с помощью cat подтвердило их целостность и корректность синхронизации через volume.
 
-![Проверка файлов в Debian](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image030.png)
+<div align="center">
+![Проверка файлов в Debian](media/image030.png)
+</div>
 
-![Содержимое файлов](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image031.png)
+<div align="center">
+![Содержимое файлов](media/image031.png)
+</div>
 
 Выполнение задачи наглядно продемонстрировало принципы работы Docker volumes и их практическое применение для организации общего доступа к данным между несколькими контейнерами и хостовой системой. Все операции были завершены успешно, подтвердив корректность настройки и работу механизма volumes в Docker.
 
@@ -159,49 +221,81 @@
 
 Первым этапом была создана отдельная директория /tmp/ZGU/docker/task для организации рабочего пространства. Внутри директории были созданы два файла конфигурации Docker Compose: compose.yaml и docker-compose.yaml. Первый файл содержал конфигурацию для запуска Portainer - веб-интерфейса для управления Docker, с настройкой network_mode в значение host и подключением Docker socket для обеспечения полного доступа к демону Docker. Второй файл описывал сервис registry, представляющий собой локальный реестр образов Docker с пробросом порта 5000.
 
-![Создание рабочей директории](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image032.png)
+<div align="center">
+![Создание рабочей директории](media/image032.png)
+</div>
 
-![Файл compose.yaml](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image033.png)
+<div align="center">
+![Файл compose.yaml](media/image033.png)
+</div>
 
-![Файл docker-compose.yaml](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image034.png)
+<div align="center">
+![Файл docker-compose.yaml](media/image034.png)
+</div>
 
 При выполнении команды docker compose up -d был запущен файл compose.yaml, что соответствует документации Docker, где указано, что файлы с именем compose.yaml имеют приоритет над docker-compose.yaml. Это поведение обусловлено официальной спецификацией Docker Compose, которая определяет порядок разрешения имен файлов конфигурации.
 
-![Запуск Docker Compose](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image035.png)
+<div align="center">
+![Запуск Docker Compose](media/image035.png)
+</div>
 
-![Проверка запущенных контейнеров](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image036.png)
+<div align="center">
+![Проверка запущенных контейнеров](media/image036.png)
+</div>
 
 Следующим шагом была модификация файла compose.yaml для одновременного запуска обоих сервисов. С использованием директивы include, предусмотренной спецификацией Docker Compose, в основной файл были включены определения сервисов из docker-compose.yaml. Это позволило создать единую точку управления для всего стека приложений.
 
-![Модификация compose.yaml](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image037.png)
+<div align="center">
+![Модификация compose.yaml](media/image037.png)
+</div>
 
 После запуска локального registry была выполнена процедура загрузки образа custom-nginx в реестр. Для этого образ был переименован в соответствии с форматом локального registry (127.0.0.1:5000/custom-nginx) и отправлен командой docker push. Данная операция обеспечила доступность кастомного образа nginx для развертывания через локальный реестр.
 
-![Переименование образа](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image038.png)
+<div align="center">
+![Переименование образа](media/image038.png)
+</div>
 
-![Загрузка образа в registry](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image039.png)
+<div align="center">
+![Загрузка образа в registry](media/image039.png)
+</div>
 
 Была произведена начальная настройка Portainer через веб-интерфейс по адресу https://127.0.0.1:9000. В процессе настройки были заданы учетные данные администратора, после чего через веб-редактор в разделе Stacks был развернут стек с nginx сервисом, использующим образ из локального registry с пробросом порта 9090.
 
-![Настройка Portainer](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image040.png)
+<div align="center">
+![Настройка Portainer](media/image040.png)
+</div>
 
-![Создание стека в Portainer](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image041.png)
+<div align="center">
+![Создание стека в Portainer](media/image041.png)
+</div>
 
 Через интерфейс Portainer был выполнен инспект запущенного контейнера nginx, в ходе которого были изучены параметры конфигурации контейнера в разделе Config, включая настройки безопасности AppArmorProfile, параметры сети и драйверы хранения.
 
-![Интерфейс Portainer](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image042.png)
+<div align="center">
+![Интерфейс Portainer](media/image042.png)
+</div>
 
-![Настройки Portainer](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image043.png)
+<div align="center">
+![Настройки Portainer](media/image043.png)
+</div>
 
-![Создание стека](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image044.png)
+<div align="center">
+![Создание стека](media/image044.png)
+</div>
 
-![Конфигурация стека](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image045.png)
+<div align="center">
+![Конфигурация стека](media/image045.png)
+</div>
 
-![Инспект контейнера](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image046.png)
+<div align="center">
+![Инспект контейнера](media/image046.png)
+</div>
 
 Финальным этапом было исследование поведения Docker Compose при удалении одного из манифестов. После удаления файла compose.yaml и повторного выполнения docker compose up -d система выдала предупреждение о необходимости явного указания файлов конфигурации при использовании нестандартных имен. В соответствии с рекомендацией была использована команда с явным указанием файлов, после чего проект был остановлен одной командой docker compose down.
 
-![Исследование поведения Docker Compose](students/Tikhomirova_Ekaterina_Yurievna/lab3/media/image047.png)
+<div align="center">
+![Исследование поведения Docker Compose](media/image047.png)
+</div>
 
 ---
 
@@ -214,4 +308,3 @@
 Несмотря на возникшие технические сложности с настройкой Portainer, все основные задачи были выполнены в полном объеме. Работа подтвердила практическое владение современными инструментами контейнеризации и оркестрации, что составляет важную часть компетенций в области информационных технологий.
 
 Полученные знания и навыки могут быть успешно применены в реальных проектах, связанных с развертыванием и управлением контейнеризированными приложениями.
-
